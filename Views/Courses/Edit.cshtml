@@ -1,0 +1,73 @@
+﻿@model CourseDto
+@{
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto rounded border p-3">
+        <h2 class="text-center mb-5">Edit Course</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Course id</label>
+                <div class="col-sm-8">
+                    <input class="form-control-plaintext" readonly value="@ViewData["CourseId"]" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Course name</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="CourseName" />
+                    <span asp-validation-for="CourseName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Lecturer</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="Lecturer" />
+                    <span asp-validation-for="Lecturer" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Start date</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="StartDate" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Tuition fee</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="TuitionFee" />
+                    <span asp-validation-for="TuitionFee" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Number of slots</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="StudentLimit" />
+                    <span asp-validation-for="StudentLimit" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="offset-sm-4 col-sm-4 d-grid">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="col-sm-4 d-grid">
+                    <a class="btn btn-outline-primary"
+                       asp-controller="Courses"
+                       asp-action="Index"
+                       role="button">
+                        Cancel
+                    </a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

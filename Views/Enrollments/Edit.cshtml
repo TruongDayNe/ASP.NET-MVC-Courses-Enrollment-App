@@ -1,0 +1,108 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MVCWebApp.Models
+@using MVCWebApp.Data
+
+@model List<Enrollment>
+@{
+    ViewData["Title"] = "Enrollments";
+}
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<!-- Notification Section -->
+@if (TempData["NotificationMessage"] != null)
+{
+    var alertClass = TempData["NotificationType"]?.ToString() == "success" ? "alert-success" :
+                     TempData["NotificationType"]?.ToString() == "info" ? "alert-info" : "alert-danger";
+    <div class="alert @alertClass alert-dismissible fade show" role="alert">
+        @TempData["NotificationMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (User.IsInRole("Moderator"))
+{
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h4 class="card-title">Enrollments for @ViewBag.CourseName</h4>
+                    <a class="btn btn-primary btn-round ms-auto" href="@Url.Action("Index", "Courses")">
+                        <i class="fa fa-arrow-left"></i>
+                        Back to Courses
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="add-row" class="display table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>User Name</th>
+                                <th>Enroll Date</th>
+                                <th style="width: 10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>User Name</th>
+                                <th>Enroll Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                var userName = ((Dictionary<Guid, string>)ViewBag.UserNames)[item.StudentId];
+                                <tr>
+                                    <td>@userName</td>
+                                    <td>@item.EnrollmentDate.ToString("dd-MM-yyyy")</td>
+                                    <td>
+                                        <div class="form-button-action">
+                                            <form asp-action="Delete" asp-controller="Enrollments" method="post">
+                                                <input type="hidden" name="id" value="@item.EnrollmentId" />
+                                                <button type="submit" class="btn btn-danger btn-round"
+                                                        onclick="return confirm('Are you sure you want to delete this student from this course?')">
+                                                    <i class="fa fa-trash"></i>
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section styles {
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="..\..\wwwroot\css\bootstrap.min.css" />
+    <link rel="stylesheet" href="..\..\wwwroot\css\plugins.min.css" />
+    <link rel="stylesheet" href="..\..\wwwroot\css\datatables.min.css" />
+    <link rel="stylesheet" href="..\..\wwwroot\css\jquery-scrollbar.css" />
+    <link rel="stylesheet" href="..\..\wwwroot\css\kaiadmin.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+}
+
+@section Scripts {
+    <!-- Core JS Files -->
+    <script src="..\..\wwwroot\js/core\jquery-3.7.1.min.js"></script>
+    <script src="..\..\wwwroot\js/core\popper.min.js"></script>
+    <script src="..\..\wwwroot\js/core\bootstrap.min.js"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script src="..\..\wwwroot/js\plugin\jquery-scrollbar\jquery.scrollbar.min.js"></script>
+    <!-- Datatables -->
+    <script src="..\..\wwwroot/js\plugin\datatables\datatables.min.js"></script>
+    <!-- Kaiadmin JS -->
+    <script src="..\..\wwwroot/js\kaiadmin.min.js"></script>
+    <!-- Fonts and icons -->
+    <script src="..\..\wwwroot\js\plugin\webfont\webfont.min.js"></script>
+}

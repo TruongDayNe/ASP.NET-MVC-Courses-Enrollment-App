@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MVCWebApp.Models
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				Hello user @User.Identity?.Name
+				@if (User.IsInRole("Moderator"))
+				{
+					<span class="badge">MODERATOR</span>
+				}
+				else if (User.IsInRole("Student"))
+				{
+					<span class="badge">Student</span>
+				}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                </li>
+            </ul>
+        </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
+</ul>
